@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscaminas | Minesweeper JS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-wrapper">
+        <!-- Encabezado y controles de configuración -->
+        <header class="game-header">
+            <h1 class="game-title">BUSCAMINAS</h1>
+            <div class="difficulty-selector">
+                <label for="difficulty">Dificultad:</label>
+                <select id="difficulty" aria-label="Seleccionar dificultad">
+                    <option value="easy">Principiante (8x8, 10 minas)</option>
+                    <option value="medium" selected>Intermedio (16x16, 40 minas)</option>
+                    <option value="expert">Experto (30x16, 99 minas)</option>
+                </select>
+            </div>
+        </header>
+
+        <!-- Panel de control de la partida (marcador clásico modernizado) -->
+        <section class="game-panel" aria-label="Panel de estado del juego">
+            <!-- Contador de minas restantes -->
+            <div class="panel-box" title="Minas restantes">
+                <span class="box-label">MINAS</span>
+                <span id="mine-count" class="digital-display">040</span>
+            </div>
+
+            <!-- Botón de reinicio (Bomba + Texto Reset) -->
+            <button id="reset-btn" class="reset-button" aria-label="Reiniciar juego" title="Reiniciar partida">
+                <span id="face-icon">💣</span>
+                <span class="reset-text">Reset</span>
+            </button>
+
+            <!-- Temporizador de juego -->
+            <div class="panel-box" title="Tiempo transcurrido">
+                <span class="box-label">TIEMPO</span>
+                <span id="timer" class="digital-display">000</span>
+            </div>
+        </section>
+
+        <!-- Record personal -->
+        <div class="highscore-banner">
+            Mejor tiempo (<span id="current-diff-label">Intermedio</span>): 
+            <strong id="best-time-display">--:--</strong>
+        </div>
+
+        <!-- Tablero dinámico del Buscaminas -->
+        <main class="board-container">
+            <div id="board" class="board-grid" role="grid" aria-label="Tablero de Buscaminas"></div>
+        </main>
+    </div>
+
+    <!-- Modal/Overlay de Mensaje Final (Victoria / Game Over) - Fuera de game-wrapper -->
+    <div id="game-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2 id="modal-title">Game Over</h2>
+            <p id="modal-message">Has detonado una mina.</p>
+            <button id="modal-play-again" class="btn-primary">Jugar de nuevo</button>
+        </div>
+    </div>
+
+    <!-- Scripts modularizados (se cargarán progresivamente) -->
+    <script src="js/config.js"></script>
+    <script src="js/state.js"></script>
+    <script src="js/board.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/timer.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

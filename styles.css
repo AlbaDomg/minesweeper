@@ -1,0 +1,361 @@
+/* ==========================================================================
+   BUSCAMINAS - ESTILOS PRINCIPALES (CSS Moderno & Responsive)
+   ========================================================================== */
+
+/* Variables Globales y Tema de Color */
+:root {
+    --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    --card-bg: rgba(30, 41, 59, 0.85);
+    --panel-bg: #0f172a;
+    --border-color: #334155;
+    
+    --cell-size: 38px;
+    --cell-bg: #334155;
+    --cell-bg-hover: #475569;
+    --cell-revealed-bg: #1e293b;
+    --cell-mine-bg: #ef4444;
+    
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --digital-color: #ef4444;
+    
+    --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    /* Dinámicos: Sobrescritos por JS según el tamaño elegido */
+    --grid-cols: 16;
+    --grid-rows: 16;
+}
+
+/* Reset Base */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none; /* Previene la selección accidental de texto al hacer clics rápidos */
+}
+
+body {
+    font-family: var(--font-sans);
+    background: var(--bg-gradient);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Contenedor Principal de la App */
+.game-wrapper {
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 100%;
+}
+
+/* Encabezado */
+.game-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+/* Título principal limpio y profesional */
+.game-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: 3px;
+    color: #f97316;
+}
+
+/* Modal de Fin de Juego - Centrado Absoluto en Pantalla */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    opacity: 1;
+    transition: opacity 0.25s ease;
+}
+
+.modal.hidden {
+    display: none !important;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.modal-content {
+    background: #1e293b;
+    border: 1px solid var(--border-color);
+    padding: 32px 40px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    max-width: 380px;
+    width: 90%;
+    margin: auto;
+}
+
+.modal-content h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text-main);
+}
+
+.modal-content p {
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+/* Botón de acción principal (Naranja cálido y moderno) */
+.btn-primary {
+    background: #f97316;
+    color: #ffffff;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+    transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
+}
+
+.btn-primary:hover {
+    background: #ea580c;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(234, 88, 12, 0.4);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.difficulty-selector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+}
+
+.difficulty-selector select {
+    background: var(--panel-bg);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.difficulty-selector select:hover {
+    border-color: #38bdf8;
+}
+
+/* Panel Digital Superior (Minas, Reinicio, Cronómetro) */
+.game-panel {
+    width: 100%;
+    background: var(--panel-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.panel-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.box-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+.digital-display {
+    font-family: var(--font-mono);
+    font-size: 1.8rem;
+    color: var(--digital-color);
+    background: #000;
+    padding: 2px 10px;
+    border-radius: 6px;
+    border: 1px solid #1e293b;
+    letter-spacing: 2px;
+    text-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
+}
+
+/* Botón de Reinicio (Bomba + Texto Reset en Naranja Translúcido) */
+.reset-button {
+    background: rgba(249, 115, 22, 0.25);
+    border: 1px solid rgba(249, 115, 22, 0.5);
+    backdrop-filter: blur(4px);
+    padding: 8px 16px;
+    border-radius: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-sans);
+    box-shadow: 0 4px 12px rgba(249, 115, 22, 0.15);
+    transition: transform 0.1s, background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.reset-button #face-icon {
+    font-size: 1.2rem;
+}
+
+.reset-button .reset-text {
+    color: #000000;
+    font-weight: 800;
+    font-size: 0.95rem;
+}
+
+.reset-button:hover {
+    background: rgba(249, 115, 22, 0.4);
+    border-color: #f97316;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(249, 115, 22, 0.25);
+}
+
+.reset-button:active {
+    transform: translateY(0);
+}
+
+.reset-button:active {
+    transform: scale(0.95);
+}
+
+/* Banner de Récord Personal */
+.highscore-banner {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+}
+
+.highscore-banner strong {
+    color: #f59e0b;
+}
+
+/* Contenedor del Tablero */
+.board-container {
+    overflow: auto;
+    max-width: 100%;
+    padding: 4px;
+}
+
+/* Grilla del Tablero (Usa CSS Variables dinámicas) */
+.board-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--grid-cols), var(--cell-size));
+    grid-template-rows: repeat(var(--grid-rows), var(--cell-size));
+    gap: 3px;
+    background: var(--panel-bg);
+    padding: 8px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+/* Estilos de Cada Celda */
+.cell {
+    width: var(--cell-size);
+    height: var(--cell-size);
+    background: var(--cell-bg);
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1rem;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: inset 1px 1px 0px rgba(255, 255, 255, 0.15),
+                inset -1px -1px 0px rgba(0, 0, 0, 0.4);
+    transition: background-color 0.15s, transform 0.05s;
+}
+
+.cell:hover:not(.revealed) {
+    background: var(--cell-bg-hover);
+}
+
+.cell:active:not(.revealed) {
+    transform: scale(0.96);
+}
+
+/* Estado Celda Revelada */
+.cell.revealed {
+    background: var(--cell-revealed-bg);
+    box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.5);
+    cursor: default;
+}
+
+/* Estado Celda Marcada con Bandera */
+.cell.flagged::after {
+    content: "🚩";
+    font-size: 1rem;
+}
+
+/* Estado Celda Mina Revelada */
+.cell.mine {
+    background: #7f1d1d;
+}
+
+.cell.mine::after {
+    content: "💣";
+    font-size: 1.1rem;
+}
+
+.cell.mine.exploded {
+    background: var(--cell-mine-bg);
+    animation: pulse-mine 0.3s ease-out;
+}
+
+/* Colores de los Números de Minas Adyacentes */
+.val-1 { color: #38bdf8; } /* Azul */
+.val-2 { color: #4ade80; } /* Verde */
+.val-3 { color: #f87171; } /* Rojo */
+.val-4 { color: #c084fc; } /* Púrpura */
+.val-5 { color: #fbbf24; } /* Naranja */
+.val-6 { color: #2dd4bf; } /* Cian */
+.val-7 { color: #f472b6; } /* Rosa */
+.val-8 { color: #94a3b8; } /* Gris */
+
+/* Animación de detonación */
+@keyframes pulse-mine {
+    0% { transform: scale(0.8); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1.0); }
+}
