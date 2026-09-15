@@ -304,7 +304,9 @@ body {
     cursor: pointer;
     box-shadow: inset 1px 1px 0px rgba(255, 255, 255, 0.15),
                 inset -1px -1px 0px rgba(0, 0, 0, 0.4);
-    transition: background-color 0.15s, transform 0.05s;
+    transition: background-color 0.1s ease;
+    user-select: none;
+    -webkit-user-drag: none;
 }
 
 .cell:hover:not(.revealed) {
@@ -312,7 +314,8 @@ body {
 }
 
 .cell:active:not(.revealed) {
-    transform: scale(0.96);
+    background: #475569;
+    box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 /* Estado Celda Revelada */

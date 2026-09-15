@@ -81,7 +81,7 @@ function setupGameEventListeners() {
 
     // 2. Evento Clic Derecho (Colocar/Quitar Bandera)
     newBoardElement.addEventListener('contextmenu', (e) => {
-        e.preventDefault(); // ¡CRUCIAL! Anula el menú contextual nativo del navegador
+        e.preventDefault(); // Anula el menú contextual nativo del navegador
 
         const cellDOM = e.target.closest('.cell');
         if (!cellDOM) return;
@@ -90,6 +90,11 @@ function setupGameEventListeners() {
         const col = parseInt(cellDOM.dataset.col, 10);
 
         handleRightClick(row, col, cellDOM);
+    });
+
+    // 3. Prevenir arrastres accidentales en el tablero
+    newBoardElement.addEventListener('dragstart', (e) => {
+        e.preventDefault();
     });
 }
 
